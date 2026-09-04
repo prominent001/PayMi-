@@ -1,6 +1,11 @@
     <?php
     // PayMI - Render + Postgres Version
-
+// Homepage route
+if ($_SERVER['REQUEST_URI'] == '/') {
+    header('Content-Type: application/json');
+    echo json_encode(["status" => "PayMi API is running ✅", "db_url" => "connected"]);
+    exit();
+}
     $database_url = getenv('DATABASE_URL');
 
     if (!$database_url) {
