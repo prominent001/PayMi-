@@ -1,4 +1,5 @@
-    <?php
+<?php
+require 'config.php';
     // PayMI - Render + Postgres Version
 // Homepage route
 if ($_SERVER['REQUEST_URI'] == '/') {
