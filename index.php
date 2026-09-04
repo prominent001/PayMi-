@@ -1,4 +1,3 @@
-
 <?php
 require 'config.php';
     // PayMI - Render + Postgres Version
