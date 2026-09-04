@@ -10,8 +10,12 @@ if (empty($databaseUrl)) {
 
 // Convert postgres:// to pdo format
 $db = parse_url($databaseUrl);
-$dsn = "pgsql:host=" . $db["host"] . ";port=" . $db["port"] . ";dbname=" . ltrim($db["path"], '/');
-
+$host = $db["host"] ?? 'localhost';
+$port = $db["port"] ?? 5432;
+$user = $db["user"] ?? '';
+$pass = $db["pass"] ?? '';
+$dbname = isset($db["path"]) ? ltrim($db["path"], '/') : '';
+$dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
 try {
     $pdo = new PDO($dsn, $db["user"], $db["pass"]);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
