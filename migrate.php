@@ -6,7 +6,6 @@ error_reporting(E_ALL);
 echo "Starting migration...\n";
 
 try {
-    // Get DATABASE_URL from Render
     $db_url = getenv('DATABASE_URL');
     if (!$db_url) {
         die("ERROR: DATABASE_URL not set");
@@ -19,12 +18,10 @@ try {
     $pass = $db['pass'];
     $dbname = ltrim($db['path'], '/');
 
-    // Connect to Postgres
-    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $user, $pass);
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     echo "Connected to DB successfully\n";
 
-    // Create Tables - Add your PayMi tables here
     $sql = "
     CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -50,10 +47,10 @@ try {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     ";
-    
+
     $pdo->exec($sql);
     echo "Tables created successfully!\n";
-    echo "Migration complete. You can delete this file now.";
+    echo "Migration complete. You can delete migrate.php now.";
 
 } catch (PDOException $e) {
     echo "ERROR: " . $e->getMessage();
