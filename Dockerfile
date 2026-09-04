@@ -1,4 +1,11 @@
-    FROM php:8.2-cli
-    WORKDIR /app
-    COPY . .
-    CMD php -S 0.0.0.0:$PORT -t .
+FROM php:8.2-apache
+
+# Install Postgres PDO driver
+RUN apt-get update && apt-get install -y libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql
+
+# Copy your code
+COPY . /var/www/html/
+
+# Enable Apache rewrite for routes like /migrate
+RUN a2enmod rewrite
