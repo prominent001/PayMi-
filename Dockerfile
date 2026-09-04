@@ -9,3 +9,4 @@ COPY . /var/www/html/
 
 # Enable Apache rewrite for routes like /migrate
 RUN a2enmod rewrite
+RUN echo 'AllowOverride All' >> /etc/apache2/apache2.conf
